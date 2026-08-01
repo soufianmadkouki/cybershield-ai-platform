@@ -1,6 +1,20 @@
-from fastapi.testclient import TestClient
+from collections.abc import Generator
+from unittest.mock import Mock
 
+from fastapi.testclient import TestClient
+from sqlalchemy.orm import Session
+
+from app.db.session import get_db
 from app.main import app
+
+
+def override_get_db() -> Generator[Mock, None, None]:
+    database = Mock(spec=Session)
+    database.execute.return_value = Mock()
+    yield database
+
+
+app.dependency_overrides[get_db] = override_get_db
 
 client = TestClient(app)
 
@@ -29,7 +43,10 @@ def test_readiness_endpoint() -> None:
     response = client.get("/api/v1/health/ready")
 
     assert response.status_code == 200
-    assert response.json() == {"status": "ready"}
+    assert response.json() == {
+        "status": "ready",
+        "database": "connected",
+    }
 
 
 def test_liveness_endpoint() -> None:

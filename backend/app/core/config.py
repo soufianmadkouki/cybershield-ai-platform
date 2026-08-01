@@ -10,8 +10,12 @@ class Settings(BaseSettings):
     debug: bool = True
     api_v1_prefix: str = "/api/v1"
 
+    database_url: str = (
+        "postgresql+psycopg://cybershield:cybershield-local-dev-password@localhost:5432/cybershield"
+    )
+
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=("../.env", ".env"),
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore",
