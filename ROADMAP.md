@@ -8,8 +8,8 @@ Build a secure, cost-conscious, multi-tenant and AI-powered cybersecurity SaaS p
 
 - [x] Create the public platform repository
 - [x] Create the private production repository
-- [ ] Create the repository structure
-- [ ] Add project documentation
+- [x] Create the repository structure
+- [x] Add project documentation
 - [ ] Add contribution and security policies
 - [ ] Configure local development standards
 - [ ] Configure GitHub issue templates
