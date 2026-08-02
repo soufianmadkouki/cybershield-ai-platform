@@ -1,5 +1,5 @@
 from sqlalchemy import Boolean, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 
@@ -28,4 +28,10 @@ class Organization(
         nullable=False,
         default=True,
         server_default="true",
+    )
+
+    memberships = relationship(
+        "Membership",
+        back_populates="organization",
+        cascade="all, delete-orphan",
     )
