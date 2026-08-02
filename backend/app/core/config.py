@@ -14,6 +14,10 @@ class Settings(BaseSettings):
         "postgresql+psycopg://cybershield:cybershield-local-dev-password@localhost:5432/cybershield"
     )
 
+    jwt_secret_key: str = "replace-this-development-secret"
+    jwt_algorithm: str = "HS256"
+    access_token_expire_minutes: int = 30
+
     model_config = SettingsConfigDict(
         env_file=("../.env", ".env"),
         env_file_encoding="utf-8",
