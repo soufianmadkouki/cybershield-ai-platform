@@ -35,3 +35,9 @@ class Organization(
         back_populates="organization",
         cascade="all, delete-orphan",
     )
+
+    assets = relationship(
+        "Asset",
+        back_populates="organization",
+        cascade="all, delete-orphan",
+    )
