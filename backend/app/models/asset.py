@@ -173,6 +173,12 @@ class Asset(
         nullable=True,
     )
 
+    vulnerability_findings = relationship(
+        "AssetVulnerability",
+        back_populates="asset",
+        cascade="all, delete-orphan",
+    )
+
     organization = relationship(
         "Organization",
         back_populates="assets",
