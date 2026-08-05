@@ -185,3 +185,11 @@ def auth_headers(
         "Authorization": f"Bearer {access_token}",
         "X-Organization-ID": organization_id,
     }
+
+
+@pytest.fixture
+def database_session(
+    migrate_test_database: None,
+) -> Generator[Session, None, None]:
+    with TestSessionLocal() as database:
+        yield database
