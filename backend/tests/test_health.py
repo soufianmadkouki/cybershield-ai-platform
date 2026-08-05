@@ -1,6 +1,7 @@
 from collections.abc import Generator
 from unittest.mock import Mock
 
+import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
@@ -14,19 +15,24 @@ def override_get_db() -> Generator[Mock, None, None]:
     yield database
 
 
-app.dependency_overrides[get_db] = override_get_db
+@pytest.fixture
+def client() -> Generator[TestClient, None, None]:
+    app.dependency_overrides[get_db] = override_get_db
 
-client = TestClient(app)
+    with TestClient(app) as test_client:
+        yield test_client
+
+    app.dependency_overrides.clear()
 
 
-def test_root_endpoint() -> None:
+def test_root_endpoint(client: TestClient) -> None:
     response = client.get("/")
 
     assert response.status_code == 200
     assert response.json()["status"] == "running"
 
 
-def test_health_endpoint() -> None:
+def test_health_endpoint(client: TestClient) -> None:
     response = client.get("/api/v1/health")
 
     assert response.status_code == 200
@@ -39,7 +45,7 @@ def test_health_endpoint() -> None:
     assert "timestamp" in payload
 
 
-def test_readiness_endpoint() -> None:
+def test_readiness_endpoint(client: TestClient) -> None:
     response = client.get("/api/v1/health/ready")
 
     assert response.status_code == 200
@@ -49,7 +55,7 @@ def test_readiness_endpoint() -> None:
     }
 
 
-def test_liveness_endpoint() -> None:
+def test_liveness_endpoint(client: TestClient) -> None:
     response = client.get("/api/v1/health/live")
 
     assert response.status_code == 200
