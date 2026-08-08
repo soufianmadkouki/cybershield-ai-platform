@@ -6,6 +6,11 @@ from app.integrations.threat_intelligence.cisa_kev import (
     CisaKevProvider,
     CisaKevProviderError,
 )
+from app.integrations.threat_intelligence.epss import (
+    EPSS_API_URL,
+    EpssProvider,
+    EpssProviderError,
+)
 from app.integrations.threat_intelligence.schemas import (
     NormalizedVulnerabilityRecord,
     RawThreatIntelligenceRecord,
@@ -16,6 +21,9 @@ from app.integrations.threat_intelligence.schemas import (
 )
 
 __all__ = [
+    "EPSS_API_URL",
+    "EpssProvider",
+    "EpssProviderError",
     "CISA_KEV_JSON_URL",
     "CisaKevProvider",
     "CisaKevProviderError",
